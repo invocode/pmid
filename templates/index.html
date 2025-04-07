@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PMID Clustering</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h2>PMID Clustering</h2>
+    <form method="POST">
+        <label>Enter PMIDs (comma separated):</label><br>
+        <input type="text" name="pmids" style="width:400px;">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="plot" style="width:800px;height:600px;"></div>
+
+    <script>
+        const clusters = {{ clusters|safe }};
+        const associations = {{ associations|safe }};
+
+        if (clusters.length > 0) {
+            const data = clusters.map(c => ({
+                x: [Math.random()],
+                y: [Math.random()],
+                text: [`${c.label}`],
+                type: 'scatter',
+                mode: 'markers+text',
+                name: `Cluster ${c.cluster}`,
+                textposition: 'top center'
+            }));
+
+            Plotly.newPlot('plot', data);
+        }
+    </script>
+</body>
+</html>
